@@ -13,8 +13,10 @@ const init = async () => {
   if (products) {
     // add products to the store
     setupStore(products);
+
+    const featured = store.filter((product) => product.featured === true);
+    console.log(featured);
   }
-  console.log(products);
 };
 
 window.addEventListener("DOMContentLoaded", init);
