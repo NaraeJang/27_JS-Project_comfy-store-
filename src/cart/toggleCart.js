@@ -11,6 +11,10 @@ toggleCartBtn.addEventListener("click", () => {
 closeCartBtn.addEventListener("click", () => {
   cartOverlay.classList.remove("show");
 });
+
+cartOverlay.addEventListener("click", () => {
+  cartOverlay.classList.remove("show");
+});
 export const openCart = () => {
   cartOverlay.classList.add("show");
 };
