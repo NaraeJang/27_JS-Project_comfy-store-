@@ -117,6 +117,7 @@ function calculateAmount(id, method) {
 function removeItem(id) {
   cart = cart.filter((cartItem) => cartItem.id !== id);
 }
+
 function setupCartFunctionality() {
   cartItemsDOM.addEventListener("click", function (e) {
     const element = e.target;
@@ -137,7 +138,12 @@ function setupCartFunctionality() {
     // decrease
     if (parent.classList.contains("cart-item-decrease-btn")) {
       const newAmount = calculateAmount(parentID, "decrease");
-      parent.previousElementSibling.textContent = newAmount;
+      if (newAmount === 0) {
+        removeItem(parentID);
+        parent.parentElement.parentElement.remove();
+      } else {
+        parent.previousElementSibling.textContent = newAmount;
+      }
     }
 
     displayCartItemCount();
