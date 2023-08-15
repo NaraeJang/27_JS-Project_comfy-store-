@@ -79,6 +79,41 @@ function increaseAmount(id) {
 
   return newAmount;
 }
+function decreaseAmount(id) {
+  let newAmount;
+
+  cart = cart.map((cartItem) => {
+    if (cartItem.id === id) {
+      newAmount = cartItem.amount - 1;
+      cartItem = { ...cartItem, amount: cartItem.amount - 1 };
+    }
+    return cartItem;
+  });
+
+  return newAmount;
+}
+
+function calculateAmount(id, method) {
+  let newAmount;
+
+  cart = cart.map((cartItem) => {
+    if (cartItem.id === id) {
+      if (method === "increase") {
+        newAmount = cartItem.amount + 1;
+        cartItem = { ...cartItem, amount: cartItem.amount + 1 };
+      }
+      if (method === "decrease") {
+        newAmount = cartItem.amount - 1;
+        cartItem = { ...cartItem, amount: cartItem.amount - 1 };
+      }
+    }
+
+    return cartItem;
+  });
+
+  return newAmount;
+}
+
 function removeItem(id) {
   cart = cart.filter((cartItem) => cartItem.id !== id);
 }
@@ -96,14 +131,15 @@ function setupCartFunctionality() {
     }
     // increase
     if (parent.classList.contains("cart-item-increase-btn")) {
-      const newAmount = increaseAmount(parentID);
+      const newAmount = calculateAmount(parentID, "increase");
       parent.nextElementSibling.textContent = newAmount;
     }
     // decrease
     if (parent.classList.contains("cart-item-decrease-btn")) {
-      const newAmount = decreaseAmount(parentID);
-      parent.nextElementSibling.textContent = newAmount;
+      const newAmount = calculateAmount(parentID, "decrease");
+      parent.previousElementSibling.textContent = newAmount;
     }
+
     displayCartItemCount();
     displayCartTotal();
     setStorageItem("cart", cart);
