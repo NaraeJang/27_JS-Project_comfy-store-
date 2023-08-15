@@ -79,7 +79,36 @@ function increaseAmount(id) {
 
   return newAmount;
 }
-function setupCartFunctionality() {}
+function removeItem(id) {
+  cart = cart.filter((cartItem) => cartItem.id !== id);
+}
+function setupCartFunctionality() {
+  cartItemsDOM.addEventListener("click", function (e) {
+    const element = e.target;
+    const parent = e.target.parentElement;
+    const id = e.target.dataset.id;
+    const parentID = e.target.parentElement.dataset.id;
+
+    // remove
+    if (element.classList.contains("cart-item-remove-btn")) {
+      removeItem(id);
+      parent.parentElement.remove();
+    }
+    // increase
+    if (parent.classList.contains("cart-item-increase-btn")) {
+      const newAmount = increaseAmount(parentID);
+      parent.nextElementSibling.textContent = newAmount;
+    }
+    // decrease
+    if (parent.classList.contains("cart-item-decrease-btn")) {
+      const newAmount = decreaseAmount(parentID);
+      parent.nextElementSibling.textContent = newAmount;
+    }
+    displayCartItemCount();
+    displayCartTotal();
+    setStorageItem("cart", cart);
+  });
+}
 
 const init = () => {
   //display amount of cart items
